@@ -2,6 +2,7 @@ package com.forex.forexservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,9 +18,10 @@ public class ForexController {
 
 	@GetMapping("/currency-exchange/from/{from}/to/{to}")
 	// @HystrixCommand(fallbackMethod = "getFallBackData")
+	@CrossOrigin
 	public ExchangeValue retrieveExchangeValue(@PathVariable String from, @PathVariable String to) {
 
-		ExchangeValue exchangeValue = repository.findByFromAndTo(from, to);
+		ExchangeValue exchangeValue = repository.findByFromAndTo(from.toUpperCase(), to.toUpperCase());
 
 		exchangeValue.setPort(Integer.parseInt(environment.getProperty("local.server.port")));
 
