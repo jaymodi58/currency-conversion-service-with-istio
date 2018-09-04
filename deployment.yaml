@@ -1,0 +1,65 @@
+######## forex-service
+apiVersion: v1
+kind: Service
+metadata:
+  name: forex-service
+  labels:
+    app: forex-service
+spec:
+  type: NodePort
+  ports:
+  - port: 8000
+    name: http
+  selector:
+    app: forex-service
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: forex-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: forex-service
+    spec:
+      containers:
+      - name: forex-service
+        image: us.gcr.io/currency-conversion-with-istio/forex-service
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+---
+######## currency-conversion-service
+apiVersion: v1
+kind: Service
+metadata:
+  name: currency-conversion-service
+  labels:
+    app: currency-conversion-service
+spec:
+  type: NodePort
+  ports:
+  - port: 8100
+    name: http
+  selector:
+    app: currency-conversion-service
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: currency-conversion-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: currency-conversion-service
+    spec:
+      containers:
+      - name: currency-conversion-service
+        image: us.gcr.io/currency-conversion-with-istio/currency-conversion-service
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8100

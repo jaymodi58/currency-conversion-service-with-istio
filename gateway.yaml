@@ -1,0 +1,33 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: currency-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 8000
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: forex-service
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - currency-gateway
+  http:
+  - match:
+    - uri:
+        exact: /currency-exchange
+    route:
+    - destination:
+        host: forex-service
+        port:
+          number: 8000
