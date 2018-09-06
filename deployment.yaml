@@ -1,3 +1,35 @@
+---
+######## currency-conversion-app
+ apiVersion: v1
+ kind: Service
+ metadata:
+   name: currency-conversion-app
+ spec:
+   type: LoadBalancer
+   ports:
+   - port: 80
+     name: currency-conversion-app
+   selector:
+     app: currency-conversion-app
+---
+ apiVersion: extensions/v1beta1
+ kind: Deployment
+ metadata:
+   name: currency-conversion-app
+ spec:
+   replicas: 1
+   template:
+     metadata:
+       labels:
+         app: currency-conversion-app
+     spec:
+       containers:
+         - name: currency-conversion-app
+           image: us.gcr.io/currency-conversion-with-istio/currency-conversion-app
+           imagePullPolicy: IfNotPresent
+           ports:
+             - containerPort: 80
+---
 ######## forex-service
 apiVersion: v1
 kind: Service
@@ -63,3 +95,4 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8100
+---

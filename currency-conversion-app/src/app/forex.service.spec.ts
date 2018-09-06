@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { ForexServiceService } from './forex-service.service';
+import { ForexService } from './forex.service';
 
 describe('ForexServiceService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ForexServiceService]
+      providers: [ForexService]
     });
   });
 
-  it('should be created', inject([ForexServiceService], (service: ForexServiceService) => {
+  it('should be created', inject([ForexService], (service: ForexService) => {
     expect(service).toBeTruthy();
   }));
 });

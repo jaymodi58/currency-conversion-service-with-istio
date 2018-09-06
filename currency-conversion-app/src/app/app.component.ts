@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { ForexService } from './forex-service.service';
+import { ForexService } from './forex.service';
+import { CurrencyConversionService } from './currency-conversion.service';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +10,14 @@ import { ForexService } from './forex-service.service';
 })
 export class AppComponent implements OnInit {
   title = 'currency-conversion-app';
-  value = 0;
+  flatFormvalue = 0;
+  currencyConversionvalue = 0;
   flatForm: FormGroup;
+  currencyConversionForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private forexService: ForexService) {
+  constructor(private fb: FormBuilder,
+    private forexService: ForexService,
+    private currencyConversionService: CurrencyConversionService) {
 
   }
 
@@ -22,15 +27,24 @@ export class AppComponent implements OnInit {
       'from': new FormControl('', Validators.required),
       'to': new FormControl('', Validators.required),
     });
+
+    this.currencyConversionForm = this.fb.group({
+      'from': new FormControl('', Validators.required),
+      'to': new FormControl('', Validators.required),
+      'quantity': new FormControl('', Validators.required),
+    });
+
   }
 
-  onSubmit(from, to) {
-    //this.submitted = true;
-    this.getValue(from,to);
+  onFlatFormSubmit(from, to) {
+    this.forexService.getExchangeValue(from, to).subscribe((res) => {
+      this.flatFormvalue = res.conversionMultiple;
+    });
   }
 
-  getValue(from, to) {
-    this.forexService.getExchangeValue(from, to).subscribe(res => this.value = res.conversionMultiple);
-    //this.forexService.getExchangeValue('USD', 'INR');
+  oncurrencyConversionFormSubmit(from, to, quantity) {
+    this.currencyConversionService.getCurrencyConversionValue(from, to, quantity).subscribe(res => {
+      this.currencyConversionvalue = res.totalCalculatedAmount;
+    });
   }
 }

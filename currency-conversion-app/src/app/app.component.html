@@ -8,7 +8,7 @@
 
 <p-tabView>
   <p-tabPanel header="Flat conversion rate">
-    <form [formGroup]="flatForm" (ngSubmit)="onSubmit(flatForm.value.from, flatForm.value.to)">
+    <form [formGroup]="flatForm" (ngSubmit)="onFlatFormSubmit(flatForm.value.from, flatForm.value.to)">
       <div class="ui-g">
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">
@@ -40,32 +40,66 @@
           </div>
           <div class="ui-g-4">
             <span class="ui-float-label" style="color: red; font-weight: bold; font-size: 5em">
-              
-                {{value}}
-              
+              {{flatFormvalue}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </form>
+  </p-tabPanel>
+
+
+  <p-tabPanel header="Currency-conversion-calculator" leftIcon="pi pi-inbox">
+    <form [formGroup]="currencyConversionForm" (ngSubmit)="oncurrencyConversionFormSubmit(currencyConversionForm.value.from, currencyConversionForm.value.to, currencyConversionForm.value.quantity)">
+      <div class="ui-g">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">
+            <span class="ui-float-label">
+              <input id="float-input" type="text" size="30" pInputText formControlName="from">
+              <label for="float-input">From</label>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">
+            <span class="ui-float-label">
+              <input id="float-input" type="text" size="30" pInputText formControlName="to">
+              <label for="float-input">To</label>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">
+            <span class="ui-float-label">
+              <input id="float-input" type="number" size="30" pInputText formControlName="quantity">
+              <label for="float-input">Quantity</label>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui-g">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">
+            <span class="ui-float-label">
+              <button pButton type="submit" label="Find rate" [disabled]="!currencyConversionForm.valid"></button>
+            </span>
+          </div>
+          <div class="ui-g-4">
+            <span class="ui-float-label" style="color: red; font-weight: bold; font-size: 5em">
+              {{currencyConversionvalue}}
             </span>
           </div>
         </div>
       </div>
     </form>
 
-  </p-tabPanel>
-
-  <p-tabPanel header="Currency-conversion-calculator" leftIcon="pi pi-inbox">
-    <span class="ui-float-label" style="margin-top: 2em">
-      <input id="float-input" type="text" size="30" pInputText>
-      <label for="float-input">From</label>
-    </span>
-    <span class="ui-float-label" style="margin-top: 2em">
-      <input id="float-input" type="text" size="30" pInputText>
-      <label for="float-input">To</label>
-    </span>
-    <span class="ui-float-label" style="margin-top: 2em">
-      <input id="float-input" type="text" size="30" pInputText>
-      <label for="float-input">Quantity</label>
-    </span>
-
-    <button pButton type="button" label="Find rate" style="margin-top: 2em"></button>
   </p-tabPanel>
 
 </p-tabView>
